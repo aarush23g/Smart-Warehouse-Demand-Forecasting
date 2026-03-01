@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+*.pem
+
+# Data (too large for GitHub)
+data/raw/
+data/processed/
+data/outputs/
+
+# Models (we’ll store in S3 later)
+artifacts/*.joblib
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

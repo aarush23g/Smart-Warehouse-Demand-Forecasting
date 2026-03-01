@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "stockout_units": 146498.75,
+    "holding_cost": 7264217.32500007,
+    "stockout_cost": 732493.75,
+    "total_cost": 7996711.07500007,
+    "service_level": 0.9421127219146509
+  },
+  "model": {
+    "stockout_units": 2025596.211472851,
+    "holding_cost": 1410379.6697733724,
+    "stockout_cost": 10127981.057364255,
+    "total_cost": 11538360.727137627,
+    "service_level": 0.19960920361328316
+  },
+  "stockout_reduction_percent": -1282.6713275525224,
+  "service_level_improvement": -0.7425035183013677,
+  "holding_cost_change_percent": -80.58456118982703,
+  "total_cost_change_percent": 44.2888284811206
+}

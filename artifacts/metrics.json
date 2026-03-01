@@ -1,0 +1,8 @@
+{
+  "baseline_wape_7d": 0.3028922097816771,
+  "model_wape_7d": 0.54877484376597,
+  "improvement_percent": -81.17826277589761,
+  "rows_evaluated": 4482030,
+  "unique_skus_evaluated": 30490,
+  "lead_time_days": 7
+}
