@@ -2,7 +2,8 @@ name: CD Deployment
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -17,8 +18,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd ~/Smart-Warehouse-Demand-Forecasting || git clone https://github.com/${{ github.repository }}.git
-            cd ~/Smart-Warehouse-Demand-Forecasting
+            cd Smart-Warehouse-Demand-Forecasting || git clone https://github.com/${{ github.repository }}.git
+            cd Smart-Warehouse-Demand-Forecasting
+
             git pull origin main
 
             pip3 install --upgrade pip
