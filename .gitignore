@@ -1,18 +1,30 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
+*.egg-info/
 .venv/
+venv/
+env/
+
+# Keys / credentials
 *.pem
+*.key
+*.env
 
 # Data (too large for GitHub)
 data/raw/
 data/processed/
 data/outputs/
 
-# Models (we’ll store in S3 later)
-artifacts/*.joblib
+# Models / artifacts
+artifacts/
+*.joblib
+*.pkl
+
+# Jupyter
+.ipynb_checkpoints/
 
 # OS
 .DS_Store
@@ -20,3 +32,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Build
+build/
+dist/
