@@ -18,14 +18,25 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd Smart-Warehouse-Demand-Forecasting || git clone https://github.com/${{ github.repository }}.git
+            # Install python & pip if missing
+            sudo apt update
+            sudo apt install -y python3-pip python3-venv git
+
+            # Clone repo if it doesn't exist
+            if [ ! -d "Smart-Warehouse-Demand-Forecasting" ]; then
+              git clone https://github.com/${{ github.repository }}.git
+            fi
+
             cd Smart-Warehouse-Demand-Forecasting
 
             git pull origin main
 
+            # Install dependencies
             pip3 install --upgrade pip
             pip3 install --no-cache-dir pandas numpy streamlit scikit-learn joblib pyarrow fastapi uvicorn pydantic
 
+            # Stop old streamlit
             pkill -f streamlit || true
 
+            # Run app
             nohup python3 -m streamlit run app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0 > nohup.out 2>&1 &
