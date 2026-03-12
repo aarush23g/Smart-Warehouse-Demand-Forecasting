@@ -18,7 +18,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # Install python & pip if missing
+            # Install required packages
             sudo apt update
             sudo apt install -y python3-pip python3-venv git
 
@@ -29,14 +29,25 @@ jobs:
 
             cd Smart-Warehouse-Demand-Forecasting
 
+            # Pull latest code
             git pull origin main
 
-            # Install dependencies
-            pip3 install --upgrade pip
-            pip3 install --no-cache-dir pandas numpy streamlit scikit-learn joblib pyarrow fastapi uvicorn pydantic
+            # Create virtual environment if not exists
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
 
-            # Stop old streamlit
+            # Activate virtual environment
+            source venv/bin/activate
+
+            # Upgrade pip
+            pip install --upgrade pip
+
+            # Install dependencies
+            pip install pandas numpy streamlit scikit-learn joblib pyarrow fastapi uvicorn pydantic
+
+            # Stop previous Streamlit instance
             pkill -f streamlit || true
 
-            # Run app
-            nohup python3 -m streamlit run app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0 > nohup.out 2>&1 &
+            # Run Streamlit app
+            nohup venv/bin/python -m streamlit run app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0 > nohup.out 2>&1 &
