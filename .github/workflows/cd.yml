@@ -24,7 +24,7 @@ jobs:
 
             # Clone repo if it doesn't exist
             if [ ! -d "Smart-Warehouse-Demand-Forecasting" ]; then
-              git clone https://github.com/aarush23g/Smart-Warehouse-Demand-Forecasting.git
+              git clone https://github.com/${{ github.repository }}.git
             fi
 
             cd Smart-Warehouse-Demand-Forecasting
