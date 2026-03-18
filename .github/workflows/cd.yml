@@ -1,13 +1,11 @@
 name: CD Deployment
-
 on:
   push:
-    branches: [main]
-
+    branches:
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -16,14 +14,27 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
+          script_stop: true
+          command_timeout: 20m
+          timeout: 60s
           script: |
-            cd ~/Smart-Warehouse-Demand-Forecasting || git clone https://github.com/${{ github.repository }}.git
-            cd ~/Smart-Warehouse-Demand-Forecasting
+            set -e
+            echo "Starting deployment..."
+
+            cd Smart-Warehouse-Demand-Forecasting
+
+            # Pull latest code
             git pull origin main
 
-            pip3 install --upgrade pip
-            pip3 install --no-cache-dir pandas numpy streamlit scikit-learn joblib pyarrow fastapi uvicorn pydantic
+            # Activate venv and update dependencies
+            source venv/bin/activate
+            pip install --quiet pandas numpy streamlit scikit-learn joblib pyarrow fastapi uvicorn pydantic
 
-            pkill -f streamlit || true
+            # Restart via systemd (fast, clean, detached)
+            sudo systemctl restart streamlit
 
-            nohup python3 -m streamlit run app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0 > nohup.out 2>&1 &
+            # Wait and verify
+            sleep 5
+            sudo systemctl is-active --quiet streamlit && echo "Streamlit is running!" || (sudo journalctl -u streamlit --no-pager -n 20 && exit 1)
+
+            echo "Deployment finished"

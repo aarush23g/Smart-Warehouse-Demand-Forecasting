@@ -13,10 +13,7 @@ env/
 *.key
 *.env
 
-# Data (too large for GitHub)
-data/raw/
-data/processed/
-data/outputs/
+
 
 # Models / artifacts
 artifacts/
